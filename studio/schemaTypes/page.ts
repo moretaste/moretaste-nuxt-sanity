@@ -15,7 +15,6 @@ export default defineType({
       name: 'slug',
       title: 'Slug',
       type: 'slug',
-      description: 'Full path (e.g., "about-us" or "about-us/our-team")',
       options: {
         source: 'title',
         maxLength: 96,
@@ -23,10 +22,14 @@ export default defineType({
       validation: (Rule) => Rule.required(),
     }),
     defineField({
-      name: 'content',
-      title: 'Content',
+      name: 'pageBuilder',
+      title: 'Page Builder',
       type: 'array',
-      of: [{type: 'block'}],
-    }),
+      of: [
+        { type: 'hero' },
+        { type: 'textBlock' },
+        // Add more block types here
+      ]
+    })
   ],
 })
