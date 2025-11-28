@@ -2,6 +2,11 @@
 import { PortableText } from '@portabletext/vue'
 import { recipeDetailQuery } from '~/queries/recipes'
 
+// Page meta
+definePageMeta({
+  key: (route) => route.fullPath
+})
+
 // Route & Composables
 const route = useRoute()
 const { query: sanityQuery } = useSanityQuery()

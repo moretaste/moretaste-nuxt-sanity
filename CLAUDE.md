@@ -41,23 +41,28 @@ All Vue files (pages and components) follow a standardized structure for consist
 // 1. Imports (queries, external dependencies)
 import { queryName } from '~/queries/...'
 
-// 2. Route & Composables
+// 2. Page meta (for dynamic routes to force refetch on navigation)
+definePageMeta({
+  key: (route) => route.fullPath
+})
+
+// 3. Route & Composables
 const route = useRoute()
 const { query: sanityQuery } = useSanityQuery()
 const { urlFor } = useSanityImage()
 
-// 3. Route params (for dynamic routes)
+// 4. Route params (for dynamic routes)
 const currentSlug = computed(() => route.params.slug as string)
 
-// 4. Data fetching
+// 5. Data fetching
 const { data } = await useAsyncData('unique-key', () =>
   sanityQuery(queryName, params)
 )
 
-// 5. Computed properties
+// 6. Computed properties
 const computed = computed(() => { ... })
 
-// 6. Error handling (if needed)
+// 7. Error handling (if needed)
 if (!data.value) {
   throw createError({ statusCode: 404, message: 'Not found' })
 }
@@ -86,6 +91,7 @@ const computed = computed(() => { ... })
 - Use shared composables (`useSanityQuery`, `useSanityImage`) instead of direct imports
 - Type component mappings as `Record<string, any>` for dynamic component resolution
 - Always provide unique keys for `useAsyncData` calls
+- **For dynamic routes**: Use `definePageMeta({ key: (route) => route.fullPath })` to ensure data refetches on client-side navigation between pages with the same component
 
 ### Page Builder System
 

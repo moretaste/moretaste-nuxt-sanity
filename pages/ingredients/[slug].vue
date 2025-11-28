@@ -1,32 +1,24 @@
 <script setup lang="ts">
 import { ingredientDetailQuery, ingredientRecipesQuery } from '~/queries/ingredients'
 
+// Page meta
+definePageMeta({
+  key: (route) => route.fullPath
+})
+
 // Route & Composables
 const route = useRoute()
 const { query: sanityQuery } = useSanityQuery()
 const { urlFor } = useSanityImage()
 
-// Route params
-const currentSlug = computed(() => route.params.slug as string)
+// Data fetching
+const { data: ingredient } = await useAsyncData(`ingredient-${route.params.slug}`, () =>
+  sanityQuery(ingredientDetailQuery, { slug: route.params.slug })
+)
 
-// Data fetching functions
-async function fetchIngredient(slug: string) {
-  return await sanityQuery(ingredientDetailQuery, { slug })
-}
-
-async function fetchRecipes(slug: string) {
-  return await sanityQuery(ingredientRecipesQuery, { slug })
-}
-
-// Reactive data
-const ingredient = ref(await fetchIngredient(currentSlug.value))
-const recipes = ref(await fetchRecipes(currentSlug.value))
-
-// Watch for route changes
-watch(currentSlug, async (newSlug) => {
-  ingredient.value = await fetchIngredient(newSlug)
-  recipes.value = await fetchRecipes(newSlug)
-})
+const { data: recipes } = await useAsyncData(`ingredient-recipes-${route.params.slug}`, () =>
+  sanityQuery(ingredientRecipesQuery, { slug: route.params.slug })
+)
 </script>
 
 <template>

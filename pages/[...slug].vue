@@ -1,6 +1,11 @@
 <script setup lang="ts">
 import { pageQuery } from '~/queries/pages'
 
+// Page meta
+definePageMeta({
+  key: (route) => route.fullPath
+})
+
 // Route & Composables
 const route = useRoute()
 const { query: sanityQuery } = useSanityQuery()
