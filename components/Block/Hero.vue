@@ -1,6 +1,5 @@
 <script setup lang="ts">
-import imageUrlBuilder from '@sanity/image-url'
-
+// Props
 const props = defineProps<{
   data: {
     title: string
@@ -11,21 +10,14 @@ const props = defineProps<{
   }
 }>()
 
-const { $sanity } = useNuxtApp()
+// Composables
+const { urlFor } = useSanityImage()
 
-// Create image URL builder
-const builder = imageUrlBuilder($sanity)
-
-function urlFor(source: any) {
-  return builder.image(source)
-}
-
-// Get optimized image URL
+// Computed properties
 const imageUrl = computed(() => {
-  const url = props.data.image 
+  return props.data.image
     ? urlFor(props.data.image).width(1200).url()
     : null
-  return url
 })
 </script>
 

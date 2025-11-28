@@ -1,9 +1,13 @@
 <script setup lang="ts">
-const { $sanity } = useNuxtApp();
+import { allPagesQuery } from '~/queries/pages'
 
-const { data: allPages } = await useAsyncData("all-pages", () =>
-    $sanity.fetch(`*[_type == "page"]{ title, "slug": slug.current }`),
-);
+// Composables
+const { query: sanityQuery } = useSanityQuery()
+
+// Data fetching
+const { data: allPages } = await useAsyncData('all-pages', () =>
+    sanityQuery(allPagesQuery)
+)
 </script>
 
 <template>

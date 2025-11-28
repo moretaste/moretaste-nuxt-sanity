@@ -1,6 +1,7 @@
 <script setup lang="ts">
 import { PortableText } from '@portabletext/vue'
 
+// Props
 defineProps<{
   data: {
     heading?: string

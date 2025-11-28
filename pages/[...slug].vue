@@ -1,46 +1,35 @@
 <script setup lang="ts">
-import { PortableText } from "@portabletext/vue";
+import { pageQuery } from '~/queries/pages'
 
-const route = useRoute();
-const { $sanity } = useNuxtApp();
+// Route & Composables
+const route = useRoute()
+const { query: sanityQuery } = useSanityQuery()
 
+// Route params
 const slugPath = route.params.slug
     ? Array.isArray(route.params.slug)
         ? route.params.slug.join("/")
         : route.params.slug
-    : "home";
+    : "home"
 
+// Data fetching
 const { data: page } = await useAsyncData(`page-${slugPath}`, () =>
-  $sanity.fetch(`*[_type == "page" && slug.current == $slug][0]{
-    title,
-    slug,
-    pageBuilder[]{
-      ...,
-      image{
-        asset->{
-          _id,
-          url
-        }
-      }
-    }
-  }`, {
-    slug: slugPath
-  })
+  sanityQuery(pageQuery, { slug: slugPath })
 )
 
+// Error handling
 if (!page.value) {
     throw createError({
         statusCode: 404,
         message: "Page not found",
-    });
+    })
 }
 
 // Component mapping
-const components = {
+const components: Record<string, any> = {
   hero: resolveComponent('BlockHero'),
   textBlock: resolveComponent('BlockText')
 }
-
 </script>
 
 <template>
