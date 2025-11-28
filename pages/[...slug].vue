@@ -18,8 +18,12 @@ const slugPath = route.params.slug
     : "home"
 
 // Data fetching
-const { data: page } = await useAsyncData(`page-${slugPath}`, () =>
-  sanityQuery(pageQuery, { slug: slugPath })
+const { data: page } = await useAsyncData(
+  `page-${slugPath}`,
+  () => sanityQuery(pageQuery, { slug: slugPath }),
+  {
+    getCachedData: () => null // Force refetch on navigation
+  }
 )
 
 // Error handling

@@ -12,12 +12,20 @@ const { query: sanityQuery } = useSanityQuery()
 const { urlFor } = useSanityImage()
 
 // Data fetching
-const { data: ingredient } = await useAsyncData(`ingredient-${route.params.slug}`, () =>
-  sanityQuery(ingredientDetailQuery, { slug: route.params.slug })
+const { data: ingredient } = await useAsyncData(
+  `ingredient-${route.params.slug}`,
+  () => sanityQuery(ingredientDetailQuery, { slug: route.params.slug }),
+  {
+    getCachedData: () => null // Force refetch on navigation
+  }
 )
 
-const { data: recipes } = await useAsyncData(`ingredient-recipes-${route.params.slug}`, () =>
-  sanityQuery(ingredientRecipesQuery, { slug: route.params.slug })
+const { data: recipes } = await useAsyncData(
+  `ingredient-recipes-${route.params.slug}`,
+  () => sanityQuery(ingredientRecipesQuery, { slug: route.params.slug }),
+  {
+    getCachedData: () => null // Force refetch on navigation
+  }
 )
 </script>
 

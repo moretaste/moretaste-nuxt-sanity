@@ -6,13 +6,17 @@ const { query: sanityQuery } = useSanityQuery()
 const { urlFor } = useSanityImage()
 
 // Data fetching
-const { data: ingredients } = await useAsyncData('ingredients', () =>
-  sanityQuery(ingredientsListQuery)
+const { data: ingredients } = await useAsyncData(
+  'ingredients',
+  () => sanityQuery(ingredientsListQuery),
+  {
+    getCachedData: () => null // Force refetch on navigation
+  }
 )
 
 // Computed properties
 const groupedIngredients = computed(() => {
-  if (!ingredients.value) return {}
+  if (!ingredients.value || !Array.isArray(ingredients.value)) return {}
 
   return ingredients.value.reduce((acc: Record<string, any[]>, ingredient: any) => {
     const category = ingredient.category || 'other'

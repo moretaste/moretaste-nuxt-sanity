@@ -6,13 +6,17 @@ const { query: sanityQuery } = useSanityQuery()
 const { urlFor } = useSanityImage()
 
 // Data fetching
-const { data: recipes } = await useAsyncData('recipes', () =>
-  sanityQuery(recipesListQuery)
+const { data: recipes } = await useAsyncData(
+  'recipes',
+  () => sanityQuery(recipesListQuery),
+  {
+    getCachedData: () => null // Force refetch on navigation
+  }
 )
 
 // Computed properties
 const groupedRecipes = computed(() => {
-  if (!recipes.value) return {}
+  if (!recipes.value || !Array.isArray(recipes.value)) return {}
 
   const grouped: Record<string, any[]> = { all: [] }
 
