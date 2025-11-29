@@ -12,9 +12,15 @@ const route = useRoute()
 const { query: sanityQuery } = useSanityQuery()
 const { urlFor } = useSanityImage()
 
-// Data fetching
-const { data: recipe } = await useAsyncData(`recipe-${route.params.slug}`, () =>
-  sanityQuery(recipeDetailQuery, { slug: route.params.slug })
+// Data fetching - use watch to force refetch on route change
+const { data: recipe } = await useAsyncData(
+  `recipe-${route.params.slug}`,
+  () => sanityQuery(recipeDetailQuery, { slug: route.params.slug }),
+  {
+    watch: [() => route.fullPath],
+    server: true,
+    lazy: false,
+  }
 )
 
 // Error handling

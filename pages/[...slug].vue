@@ -17,9 +17,15 @@ const slugPath = route.params.slug
         : route.params.slug
     : "home"
 
-// Data fetching
-const { data: page } = await useAsyncData(`page-${slugPath}`, () =>
-  sanityQuery(pageQuery, { slug: slugPath })
+// Data fetching - use watch to force refetch on route change
+const { data: page } = await useAsyncData(
+  `page-${slugPath}`,
+  () => sanityQuery(pageQuery, { slug: slugPath }),
+  {
+    watch: [() => route.fullPath],
+    server: true,
+    lazy: false,
+  }
 )
 
 // Error handling
