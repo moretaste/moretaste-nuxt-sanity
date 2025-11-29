@@ -4,11 +4,11 @@ import { navigationPagesQuery } from '~/queries/pages'
 
 // Route & Composables
 const route = useRoute()
-const { query: sanityQuery } = useSanityQuery()
+const { $sanity } = useNuxtApp()
 
 // Data fetching
 const { data: pages } = await useAsyncData('navigation-pages', () =>
-  sanityQuery(navigationPagesQuery)
+  $sanity.fetch(navigationPagesQuery)
 )
 
 // Computed properties

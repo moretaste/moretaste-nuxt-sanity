@@ -2,11 +2,11 @@
 import { allPagesQuery } from '~/queries/pages'
 
 // Composables
-const { query: sanityQuery } = useSanityQuery()
+const { $sanity } = useNuxtApp()
 
 // Data fetching
 const { data: allPages } = await useAsyncData('all-pages', () =>
-    sanityQuery(allPagesQuery)
+    $sanity.fetch(allPagesQuery)
 )
 </script>
 

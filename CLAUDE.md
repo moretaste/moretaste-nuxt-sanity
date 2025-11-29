@@ -48,7 +48,7 @@ definePageMeta({
 
 // 3. Route & Composables
 const route = useRoute()
-const { query: sanityQuery } = useSanityQuery()
+const { $sanity } = useNuxtApp()
 const { urlFor } = useSanityImage()
 
 // 4. Route params (for dynamic routes)
@@ -56,7 +56,7 @@ const currentSlug = computed(() => route.params.slug as string)
 
 // 5. Data fetching
 const { data } = await useAsyncData('unique-key', () =>
-  sanityQuery(queryName, params)
+  $sanity.fetch(queryName, params)
 )
 
 // 6. Computed properties
@@ -88,7 +88,7 @@ const computed = computed(() => { ... })
 **Key Conventions**:
 - Use clear section comments to separate concerns
 - Import queries from `/queries/` directory, never inline GROQ strings
-- Use shared composables (`useSanityQuery`, `useSanityImage`) instead of direct imports
+- Use `$sanity.fetch()` for direct Sanity client access and `useSanityImage()` for image URLs
 - Type component mappings as `Record<string, any>` for dynamic component resolution
 - Always provide unique keys for `useAsyncData` calls
 - **For dynamic routes**: Use `definePageMeta({ key: (route) => route.fullPath })` to ensure data refetches on client-side navigation between pages with the same component
@@ -150,7 +150,6 @@ When adding a new block type (e.g., "gallery"):
 - CDN enabled for better performance
 
 **Composables**:
-- `useSanityQuery()` - Proxy for Sanity queries via API route (`/composables/useSanityQuery.ts`)
 - `useSanityImage()` - Image URL builder helper (`/composables/useSanityImage.ts`)
 
 **Query Organization** (`/queries/`):
@@ -164,11 +163,16 @@ When adding a new block type (e.g., "gallery"):
 ```typescript
 import { recipeDetailQuery } from '~/queries/recipes'
 
-const { query: sanityQuery } = useSanityQuery()
+const { $sanity } = useNuxtApp()
 const { data } = await useAsyncData('unique-key', () =>
-  sanityQuery(recipeDetailQuery, { slug })
+  $sanity.fetch(recipeDetailQuery, { slug })
 )
 ```
+
+**CORS Configuration**:
+- Production domain must be added to Sanity CORS allowed origins
+- Local development uses port 3333 (already whitelisted)
+- Direct client-side Sanity fetching (no server proxy)
 
 ### ISR Configuration
 
@@ -199,7 +203,6 @@ Accessed via `useRuntimeConfig().resendApiKey` (private runtime config)
 
 Located in `/server/api/`:
 - `contact.post.ts` - Handles contact form submissions via Resend email API
-- `sanity-query.post.ts` - Proxy endpoint for Sanity queries (used by `useSanityQuery`)
 - API routes follow Nitro/h3 conventions
 
 ## Directory Structure
@@ -212,7 +215,6 @@ Located in `/server/api/`:
 │       ├── Hero.vue       # Hero block component
 │       └── Text.vue       # Text block component
 ├── composables/
-│   ├── useSanityQuery.ts  # Sanity query proxy composable
 │   └── useSanityImage.ts  # Image URL builder composable
 ├── pages/
 │   ├── ingredients/       # Ingredient pages
@@ -228,8 +230,7 @@ Located in `/server/api/`:
 │   ├── recipes.ts         # Recipe GROQ queries
 │   └── pages.ts           # Page builder GROQ queries
 ├── server/api/
-│   ├── contact.post.ts    # Contact form handler
-│   └── sanity-query.post.ts # Sanity query proxy
+│   └── contact.post.ts    # Contact form handler
 ├── studio/                # Sanity Studio (separate app)
 │   ├── schemaTypes/       # Content schemas
 │   │   ├── blocks/        # Page builder block schemas
