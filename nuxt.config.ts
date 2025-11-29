@@ -29,6 +29,23 @@ export default defineNuxtConfig({
         interval: 1000,
       },
     },
+    build: {
+      // Increase chunk size warning limit
+      chunkSizeWarningLimit: 1000,
+      // Manual chunks to optimize bundle size
+      rollupOptions: {
+        output: {
+          manualChunks: {
+            // Split Sanity client into its own chunk
+            'sanity': ['@sanity/client', '@sanity/image-url'],
+            // Split PortableText into its own chunk
+            'portable-text': ['@portabletext/vue'],
+          },
+        },
+      },
+      // Disable sourcemaps in production for smaller bundles
+      sourcemap: false,
+    },
   },
 
   // Exclude studio from watching
