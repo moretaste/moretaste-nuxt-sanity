@@ -4,6 +4,10 @@ export default defineNuxtConfig({
 
   modules: ["@nuxt/ui"],
 
+  devServer: {
+    port: 3333,
+  },
+
   css: ["~/assets/css/main.css"],
 
   typescript: {

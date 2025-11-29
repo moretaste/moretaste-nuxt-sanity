@@ -8,24 +8,21 @@ definePageMeta({
 
 // Route & Composables
 const route = useRoute()
-const { query: sanityQuery } = useSanityQuery()
+const { $sanity } = useNuxtApp()
 
 // Route params
-const slugPath = route.params.slug
+const slugPath = computed(() =>
+  route.params.slug
     ? Array.isArray(route.params.slug)
         ? route.params.slug.join("/")
         : route.params.slug
     : "home"
+)
 
-// Data fetching - use watch to force refetch on route change
+// Data fetching
 const { data: page } = await useAsyncData(
-  `page-${slugPath}`,
-  () => sanityQuery(pageQuery, { slug: slugPath }),
-  {
-    watch: [() => route.fullPath],
-    server: true,
-    lazy: false,
-  }
+  () => route.fullPath,
+  () => $sanity.fetch(pageQuery, { slug: slugPath.value })
 )
 
 // Error handling

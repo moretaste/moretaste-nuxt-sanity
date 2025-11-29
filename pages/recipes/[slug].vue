@@ -9,18 +9,13 @@ definePageMeta({
 
 // Route & Composables
 const route = useRoute()
-const { query: sanityQuery } = useSanityQuery()
+const { $sanity } = useNuxtApp()
 const { urlFor } = useSanityImage()
 
-// Data fetching - use watch to force refetch on route change
+// Data fetching
 const { data: recipe } = await useAsyncData(
-  `recipe-${route.params.slug}`,
-  () => sanityQuery(recipeDetailQuery, { slug: route.params.slug }),
-  {
-    watch: [() => route.fullPath],
-    server: true,
-    lazy: false,
-  }
+  () => route.fullPath,
+  () => $sanity.fetch(recipeDetailQuery, { slug: route.params.slug })
 )
 
 // Error handling

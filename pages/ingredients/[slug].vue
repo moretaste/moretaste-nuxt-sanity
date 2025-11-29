@@ -8,28 +8,18 @@ definePageMeta({
 
 // Route & Composables
 const route = useRoute()
-const { query: sanityQuery } = useSanityQuery()
+const { $sanity } = useNuxtApp()
 const { urlFor } = useSanityImage()
 
-// Data fetching - use watch to force refetch on route change
+// Data fetching
 const { data: ingredient } = await useAsyncData(
-  `ingredient-${route.params.slug}`,
-  () => sanityQuery(ingredientDetailQuery, { slug: route.params.slug }),
-  {
-    watch: [() => route.fullPath],
-    server: true,
-    lazy: false,
-  }
+  () => `ingredient-${route.fullPath}`,
+  () => $sanity.fetch(ingredientDetailQuery, { slug: route.params.slug })
 )
 
-const { data: recipes} = await useAsyncData(
-  `ingredient-recipes-${route.params.slug}`,
-  () => sanityQuery(ingredientRecipesQuery, { slug: route.params.slug }),
-  {
-    watch: [() => route.fullPath],
-    server: true,
-    lazy: false,
-  }
+const { data: recipes } = await useAsyncData(
+  () => `ingredient-recipes-${route.fullPath}`,
+  () => $sanity.fetch(ingredientRecipesQuery, { slug: route.params.slug })
 )
 </script>
 
