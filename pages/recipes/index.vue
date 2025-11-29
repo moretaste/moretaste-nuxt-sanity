@@ -2,12 +2,12 @@
 import { recipesListQuery } from '~/queries/recipes'
 
 // Composables
-const { query: sanityQuery } = useSanityQuery()
+const { $sanity } = useNuxtApp()
 const { urlFor } = useSanityImage()
 
 // Data fetching
 const { data: recipes } = await useAsyncData('recipes', () =>
-  sanityQuery(recipesListQuery)
+  $sanity.fetch(recipesListQuery)
 )
 
 // Computed properties
