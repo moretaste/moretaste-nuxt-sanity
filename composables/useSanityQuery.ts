@@ -4,8 +4,9 @@ export const useSanityQuery = () => {
     return await $fetch('/api/sanity-query', {
       method: 'POST',
       body: { query: queryString, params },
-      // Unique key per query to prevent $fetch caching
-      key: `sanity-${Date.now()}-${Math.random()}`,
+      headers: {
+        'Cache-Control': 'no-cache',
+      },
     })
   }
 
