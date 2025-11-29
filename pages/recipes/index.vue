@@ -6,12 +6,8 @@ const { query: sanityQuery } = useSanityQuery()
 const { urlFor } = useSanityImage()
 
 // Data fetching
-const { data: recipes } = await useAsyncData(
-  'recipes',
-  () => sanityQuery(recipesListQuery),
-  {
-    getCachedData: () => null // Force refetch on navigation
-  }
+const { data: recipes } = await useAsyncData('recipes', () =>
+  sanityQuery(recipesListQuery)
 )
 
 // Computed properties
