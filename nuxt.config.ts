@@ -6,6 +6,9 @@ export default defineNuxtConfig({
 
   icon: {
     localApiEndpoint: "/_nuxt_icon",
+    serverBundle: {
+      collections: ["lucide"],
+    },
   },
 
   devServer: {
