@@ -5,10 +5,8 @@ export default defineNuxtConfig({
   modules: ["@nuxt/ui"],
 
   icon: {
-    localApiEndpoint: "/_nuxt_icon",
-    serverBundle: {
-      collections: ["lucide"],
-    },
+    provider: "iconify",
+    serverBundle: "local",
   },
 
   devServer: {
