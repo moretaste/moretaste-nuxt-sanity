@@ -4,6 +4,10 @@ export default defineNuxtConfig({
 
   modules: ["@nuxt/ui"],
 
+  icon: {
+    localApiEndpoint: "/_nuxt_icon",
+  },
+
   devServer: {
     port: 3333,
   },
@@ -41,9 +45,9 @@ export default defineNuxtConfig({
         output: {
           manualChunks: {
             // Split Sanity client into its own chunk
-            'sanity': ['@sanity/client', '@sanity/image-url'],
+            sanity: ["@sanity/client", "@sanity/image-url"],
             // Split PortableText into its own chunk
-            'portable-text': ['@portabletext/vue'],
+            "portable-text": ["@portabletext/vue"],
           },
         },
       },
