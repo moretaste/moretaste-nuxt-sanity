@@ -1,2 +1,97 @@
 @import "tailwindcss";
 @import "@nuxt/ui";
+
+@plugin "@tailwindcss/typography";
+
+@theme {
+    --font-sans: "DM Sans", system-ui, sans-serif;
+}
+
+/* Customize Nuxt UI theme with moretaste palette */
+
+/* Light Mode */
+:root {
+    --spacing: 0.25rem; /* Fix Tailwind spacing units */
+    /* Background colors */
+    --ui-bg: rgb(220 230 220); /* Light Ash Grey tint */
+    --ui-bg-muted: rgb(210 220 210); /* Slightly darker */
+    --ui-bg-elevated: rgb(239 246 224); /* Beige for cards */
+    --ui-bg-accented: rgb(89 131 146); /* Air Force Blue */
+    --ui-bg-inverted: rgb(1 22 30); /* Ink Black */
+
+    /* Border colors */
+    --ui-border: rgb(174 195 176); /* Ash Grey */
+    --ui-border-muted: rgb(174 195 176 / 0.5); /* Ash Grey 50% */
+    --ui-border-accented: rgb(18 69 89); /* Dark Teal */
+    --ui-border-inverted: rgb(239 246 224); /* Beige */
+
+    /* Text colors */
+    --ui-text: rgb(1 22 30); /* Ink Black */
+    --ui-text-dimmed: rgb(18 69 89); /* Dark Teal */
+    --ui-text-muted: rgb(89 131 146); /* Air Force Blue */
+    --ui-text-toned: rgb(89 131 146); /* Air Force Blue */
+    --ui-text-highlighted: rgb(18 69 89); /* Dark Teal */
+    --ui-text-inverted: rgb(239 246 224); /* Beige */
+}
+
+/* Dark Mode */
+.dark {
+    /* Background colors */
+    --ui-bg: rgb(1 22 30); /* Ink Black */
+    --ui-bg-muted: rgb(18 69 89); /* Dark Teal */
+    --ui-bg-elevated: rgb(18 69 89); /* Dark Teal for cards */
+    --ui-bg-accented: rgb(89 131 146); /* Air Force Blue */
+    --ui-bg-inverted: rgb(239 246 224); /* Beige */
+
+    /* Border colors */
+    --ui-border: rgb(18 69 89 / 0.6); /* Dark Teal subtle */
+    --ui-border-muted: rgb(18 69 89 / 0.3); /* Dark Teal very subtle */
+    --ui-border-accented: rgb(89 131 146); /* Air Force Blue */
+    --ui-border-inverted: rgb(239 246 224); /* Beige */
+
+    /* Text colors */
+    --ui-text: rgb(220 230 220); /* Softer light grey for better readability */
+    --ui-text-dimmed: rgb(76 179 198); /* Teal Light for headings */
+    --ui-text-muted: rgb(89 131 146); /* Air Force Blue */
+    --ui-text-toned: rgb(174 195 176); /* Ash Grey */
+    --ui-text-highlighted: rgb(76 179 198); /* Teal Light for emphasis */
+    --ui-text-inverted: rgb(1 22 30); /* Ink Black */
+}
+
+/* Heading gradient styles */
+:not(.prose) h1,
+:not(.prose) h2,
+:not(.prose) h3,
+:not(.prose) h4,
+:not(.prose) h5,
+:not(.prose) h6 {
+    background: linear-gradient(
+        90deg,
+        #124559 0%,
+        #0092ae 100%
+    ); /* Ink Black to Air Force Blue */
+    background-clip: text;
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-size: 100%;
+    color: transparent;
+}
+
+/* Dark mode heading gradient */
+.dark :not(.prose) h1,
+.dark :not(.prose) h2,
+.dark :not(.prose) h3,
+.dark :not(.prose) h4,
+.dark :not(.prose) h5,
+.dark :not(.prose) h6 {
+    background: linear-gradient(
+        90deg,
+        #0092ae 0%,
+        #eff6e0 100%
+    ); /* Teal to Beige */
+    background-clip: text;
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-size: 100%;
+    color: transparent;
+}
