@@ -88,10 +88,7 @@ const items = computed<NavigationMenuItem[]>(() => {
         />
 
         <template #right>
-            <UColorModeButton
-                :dark-icon="'i-lucide-moon'"
-                :light-icon="'i-lucide-sun'"
-            />
+            <UColorModeButton />
         </template>
 
         <template #body>
